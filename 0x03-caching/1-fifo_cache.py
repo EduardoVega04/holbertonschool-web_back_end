@@ -1,27 +1,27 @@
 #!/usr/bin/python3
-"""Create LIFOCache class that inherits from BaseCaching"""
+"""Create FIFOCache class that inherits from BaseCaching"""
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class LIFOCache(BaseCaching):
-    """ Define LIFOCache """
+class FIFOCache(BaseCaching):
+    """ Define FIFOCache """
 
     def __init__(self):
-        """ Initialize LIFOCache """
-        self.stack = []
+        """ Initialize FIFOCache """
+        self.queue = []
         super().__init__()
 
     def put(self, key, item):
         """ Assign the item to the dictionary """
         if key and item:
             if self.cache_data.get(key):
-                self.stack.remove(key)
-            while len(self.stack) >= self.MAX_ITEMS:
-                delete = self.stack.pop()
+                self.queue.remove(key)
+            self.queue.append(key)
+            self.cache_data[key] = item
+            if len(self.queue) > self.MAX_ITEMS:
+                delete = self.queue.pop(0)
                 self.cache_data.pop(delete)
                 print('DISCARD: {}'.format(delete))
-            self.stack.append(key)
-            self.cache_data[key] = item
 
     def get(self, key):
         """ Return the value associated with the given key """
