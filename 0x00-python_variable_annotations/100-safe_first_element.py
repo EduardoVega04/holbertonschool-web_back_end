@@ -6,7 +6,7 @@ from typing import Any, Sequence, Union
 
 
 def safe_first_element(lst: Sequence[Any]) -> Union[Any, None]:
-    """ Return the first element of a list or none """
+    """Type annotating a function"""
     if lst:
         return lst[0]
     else:
