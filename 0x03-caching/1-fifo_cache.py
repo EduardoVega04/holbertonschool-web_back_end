@@ -14,13 +14,12 @@ class FIFOCache(BaseCaching):
     def put(self, key, item):
         """Puts an entry in the FIFO system"""
         if key and item:
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+                removed = self.cache_queue.pop(0)
+                del self.cache_data[removed]
+                print(f"DISCARD: {removed}")
             self.cache_data[key] = item
             self.cache_queue.append(key)
-
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            removed = self.cache_queue.pop(0)
-            del self.cache_data[removed]
-            print(f"DISCARD: {removed}")
 
     def get(self, key):
         """Gets and returns an entry from the cache system"""
