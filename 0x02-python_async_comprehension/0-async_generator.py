@@ -4,9 +4,10 @@ Async Generator
 """
 import asyncio
 from random import uniform
+from typing import AsyncGenerator
 
 
-async def async_generator():
+async def async_generator() -> AsyncGenerator[float, None]:
     """Asynchronous generator"""
     for _ in range(11):
         asyncio.sleep(1)
