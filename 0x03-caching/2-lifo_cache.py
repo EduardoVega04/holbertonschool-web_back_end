@@ -14,7 +14,7 @@ class LIFOCache(BaseCaching):
     def put(self, key, item):
         """Puts an entry in the FIFO system"""
         if key and item:
-            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            if len(self.cache_data) == BaseCaching.MAX_ITEMS:
                 removed = self.cache_lifo.pop()
                 del self.cache_data[removed]
                 print(f"DISCARD: {removed}")
