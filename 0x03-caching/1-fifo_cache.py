@@ -1,28 +1,27 @@
 #!/usr/bin/python3
 """Create FIFOCache class that inherits from BaseCaching"""
-BaseCaching = __import__('base_caching').BaseCaching
+from base_caching import BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    """ Define FIFOCache """
+    """Simulates a FIFO cache system"""
 
     def __init__(self):
-        """ Initialize FIFOCache """
-        self.queue = []
+        """Initializes the FIFO cache system"""
         super().__init__()
 
     def put(self, key, item):
-        """ Assign the item to the dictionary """
+        """Puts an entry in the FIFO system"""
+        fifo_queue_list = []
         if key and item:
-            if self.cache_data.get(key):
-                self.queue.remove(key)
-            self.queue.append(key)
             self.cache_data[key] = item
-            if len(self.queue) > self.MAX_ITEMS:
-                delete = self.queue.pop(0)
-                self.cache_data.pop(delete)
-                print('DISCARD: {}'.format(delete))
+            fifo_queue_list.append(key)
+
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            removed = fifo_queue_list.pop(0)
+            del self.cache_data[removed]
+            print(f"DISCARD: {removed}")
 
     def get(self, key):
-        """ Return the value associated with the given key """
+        """Gets and returns an entry from the cache system"""
         return self.cache_data.get(key)
