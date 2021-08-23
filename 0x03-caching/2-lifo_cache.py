@@ -12,14 +12,16 @@ class LIFOCache(BaseCaching):
         self.cache_lifo = []
 
     def put(self, key, item):
-        """Puts an entry in the FIFO system"""
+        """Puts an entry in the LIFO system"""
+        limit = BaseCaching.MAX_ITEMS
         if key and item:
-            if len(self.cache_data) == BaseCaching.MAX_ITEMS:
+            if len(self.cache_data) == limit and key not in self.cache_data:
                 removed = self.cache_lifo.pop()
                 del self.cache_data[removed]
                 print(f"DISCARD: {removed}")
+            if key not in self.cache_data:
+                self.cache_lifo.append(key)
             self.cache_data[key] = item
-            self.cache_lifo.append(key)
 
     def get(self, key):
         """Gets and returns an entry from the cache system"""
