@@ -28,4 +28,4 @@ class MRUCache(BaseCaching):
         if key in self.cache_data:
             self.cache_mru.remove(key)
             self.cache_mru.append(key)
-        return self.cache_data[key]
+        return self.cache_data.get(key)
