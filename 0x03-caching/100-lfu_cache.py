@@ -1,33 +1,48 @@
 #!/usr/bin/python3
 """ Create LFUCache class that inherits from BaseCaching """
-from base_caching import BaseCaching
+BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LFUCache(BaseCaching):
-    """Class than simulates a LFU caching system"""
+    """ Define LFUCache """
+
     def __init__(self):
-        """Initialize the LFU caching system"""
+        """ Initialize LFUCache """
+        self.queue = []
+        self.lfu = {}
         super().__init__()
-        self.cache_freq = {}
-    
+
     def put(self, key, item):
-        """Puts an entry in the LFU caching system"""
-        limit = BaseCaching.MAX_ITEMS
+        """ Assign the item to the dictionary """
         if key and item:
-            if len(self.cache_data) == limit and key not in self.cache_data:
-                for key, val in self.cache_freq.items():
-                    target, rank = key, val
-                    if val < rank:
-                        target, rank = key, val
-                del self.cache_data[target]
-                del self.cache_freq[target]                
-                print(f"DISCARD: {target}")
-            if key not in self.cache_data:
-                self.cache_freq[key] = 0
+            if (len(self.queue) >= self.MAX_ITEMS and
+                    not self.cache_data.get(key)):
+                delete = self.queue.pop(0)
+                self.lfu.pop(delete)
+                self.cache_data.pop(delete)
+                print('DISCARD: {}'.format(delete))
+
+            if self.cache_data.get(key):
+                self.queue.remove(key)
+                self.lfu[key] += 1
+            else:
+                self.lfu[key] = 0
+
+            insert_index = 0
+            while (insert_index < len(self.queue) and
+                   not self.lfu[self.queue[insert_index]]):
+                insert_index += 1
+            self.queue.insert(insert_index, key)
             self.cache_data[key] = item
-    
+
     def get(self, key):
-        """Gets an entry from the LFU caching system"""
-        if key in self.cache_data:
-            self.cache_freq[key] += 1
+        """ Return the value associated with the given key """
+        if self.cache_data.get(key):
+            self.lfu[key] += 1
+            if self.queue.index(key) + 1 != len(self.queue):
+                while (self.queue.index(key) + 1 < len(self.queue) and
+                       self.lfu[key] >=
+                       self.lfu[self.queue[self.queue.index(key) + 1]]):
+                    self.queue.insert(self.queue.index(key) + 1,
+                                      self.queue.pop(self.queue.index(key)))
         return self.cache_data.get(key)
