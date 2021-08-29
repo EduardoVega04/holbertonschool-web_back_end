@@ -49,12 +49,12 @@ def get_locale():
     return request.accept_languages.best_match(Config.LANGUAGES)
 
 
-def get_user(login_as=0):
+def get_user(login_as):
     """
     Get user from request
     """
     if login_as:
-        return users.get(login_as)
+        return users.get(int(login_as))
 
 
 @app.before_request
@@ -62,8 +62,8 @@ def before_request():
     """
     Get user, if any
     """
-    g.user = get_user(int(request.args.get('login_as')))
+    g.user = get_user(request.args.get('login_as'))
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="localhost", port="5000")
