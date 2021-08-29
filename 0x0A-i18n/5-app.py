@@ -49,12 +49,12 @@ def get_locale():
     return request.accept_languages.best_match(Config.LANGUAGES)
 
 
-def get_user(user):
+def get_user(login_as=0):
     """
     Get user from request
     """
-    if user and int(user) in users:
-        return users.get(int(user))
+    if login_as and login_as in users:
+        return users.get(login_as)
 
 
 @app.before_request
