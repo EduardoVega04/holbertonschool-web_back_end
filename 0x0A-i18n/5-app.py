@@ -53,7 +53,7 @@ def get_user(login_as=0):
     """
     Get user from request
     """
-    if login_as and login_as in users:
+    if login_as:
         return users.get(login_as)
 
 
@@ -62,7 +62,7 @@ def before_request():
     """
     Get user, if any
     """
-    g.user = get_user(request.args.get('login_as'))
+    g.user = get_user(int(request.args.get('login_as')))
 
 
 if __name__ == "__main__":
