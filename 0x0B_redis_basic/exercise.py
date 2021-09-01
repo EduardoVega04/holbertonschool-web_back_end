@@ -27,7 +27,7 @@ class Cache:
 
     def get_str(self, key) -> str:
         """TBD"""
-        return str(key)
+        return key.decode()
 
 
     def get_int(self, key) -> int:
