@@ -25,9 +25,11 @@ class Cache:
             return fn(element)
         return element
 
-    def get_str(self) -> str:
+    def get_str(self, key) -> str:
         """TBD"""
+        return str(key)
 
 
-    def get_int(self) -> int:
+    def get_int(self, key) -> int:
         """TBD"""
+        return int(key)
