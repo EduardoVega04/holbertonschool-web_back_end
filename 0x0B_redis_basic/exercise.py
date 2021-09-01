@@ -19,15 +19,15 @@ class Cache:
         return key
 
     def get(self, key: str, fn: Optional[Callable]) -> str:
-        """convert the data back to the desired format"""
-        data = self._redis.get(key)
+        """Gets an element from Redis"""
+        element = self._redis.get(key)
         if fn:
-            return fn(data)
-        return data
+            return fn(element)
+        return element
 
     def get_str(self) -> str:
-        """conversion to get str"""
+        """TBD"""
 
 
     def get_int(self) -> int:
-        """conversion to get int"""
+        """TBD"""
